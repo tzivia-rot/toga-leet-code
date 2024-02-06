@@ -1,0 +1,19 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: my-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tzivia
+      MONGO_INITDB_ROOT_PASSWORD: tz3183761
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
+
+
+
+      
