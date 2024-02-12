@@ -44,7 +44,6 @@ func (s *ExerciseService) CheckExercise(c *gin.Context) {
 	if answer.Lenguage == "GO" {
 		checkExerciseGO := CheckExerciseGO(answer.Function, exercise.Examples)
 		c.JSON(http.StatusOK, gin.H{"response": checkExerciseGO})
-
 	}
 
 }

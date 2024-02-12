@@ -9,40 +9,21 @@ import (
 	"strings"
 )
 
-// type Example struct {
-// 	Input  []string `json:"input"`
-// 	Output string   `json:"output"`
-// }
-
-// type Exercise struct {
-// 	ID             string `json:"id" bson:"_id,omitempty"`
-// 	Name           string `json:"name" bson:"name"`
-// 	Description    string `json:"description" bson:"description"`
-// 	Examples       []Example
-// 	BasisOperation string
-// }
-// type Answer struct {
-// 	Function   string `json:"function" bson:"function"`
-// 	Lenguage   string `json:"lenguage" bson:"lenguage"`
-// 	ID         string `json:"id" bson:"_id,omitempty"`
-// 	ExerciseId string `json:"exerciseId" bson:"exerciseId"`
-// }
-
-func createYAMLString(arrays []model.Example, imageName string) (string, error) {
+func createYAMLString(lenguage string, arrays []model.Example, imageName string) (string, error) {
 	yamlContent := ""
 	for i, arr := range arrays {
 		yamlContent += fmt.Sprintf(`---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: functionex-%d
+  name: ex-%d%s
 spec:
   template:
     spec:
       containers:
       - name: function
         image: %s
-        env:`, i+1, imageName)
+        env:`, i+1, lenguage, imageName)
 
 		// Set environment variables for each input in the array
 		for j, input := range arr.Input {
@@ -68,35 +49,39 @@ func runCommand(command string) (string, error) {
 	return string(output), nil
 }
 
-func compareOutputs(examples []model.Example) (bool, error) {
+func compareOutputs(examples []model.Example, lenguage string) (bool, error) {
 	fmt.Print("\nfdfdf1", examples)
 
 	for i, arr := range examples {
-		podName, err := runCommand(fmt.Sprintf("kubectl get pods -l app=function-%d -o jsonpath='{.items[0].metadata.name}'", i+1))
+		podName, err := runCommand(fmt.Sprintf("kubectl get pods --selector=job-name=ex-%d%s -o=jsonpath='{.items[0].metadata.name}'", i+1, lenguage))
 		if err != nil {
 			return false, err
 		}
-		// fmt.Print("kubectl logssssssssssssss ", podName)
 		fmt.Print("\nfdfdf2\n", podName)
 		podNameWithoutHyphen := strings.Replace(podName, "'", "", -1)
 		logs, err := runCommand(fmt.Sprintf("kubectl logs %s", podNameWithoutHyphen))
 		fmt.Print("\nfdfdf2\n", logs)
-
 		if err != nil {
-			fmt.Print("\nerrrrrrrrr\n")
-			// return false, err
+			return false, err
+		}
+		if lenguage == "go" {
+			if !strings.EqualFold(logs, arr.Output) {
+				return false, nil
+			}
+		}
+		if lenguage == "node.js" {
+			result := strings.Split(logs, " ")
+			if result[len(result)] != arr.Output {
+				return false, nil
+			}
 		}
 
-		if logs != arr.Output {
-			fmt.Print()
-			return false, nil
-		}
 	}
 	return true, nil
 }
 
-func createAndRunYmlFile(examples []model.Example, imageName string) (string, error) {
-	yamlContent, err := createYAMLString(examples, imageName)
+func createAndRunYmlFile(lenguage string, examples []model.Example, imageName string) (string, error) {
+	yamlContent, err := createYAMLString(lenguage, examples, imageName)
 	fmt.Print("\nimageNameymaelll-----------------\n", yamlContent)
 	fmt.Print("\nanddddddddddd")
 	if err != nil {
@@ -121,13 +106,13 @@ func createAndRunYmlFile(examples []model.Example, imageName string) (string, er
 
 	// Apply YAML from the temporary file
 	fmt.Print("tmpfile.Name())))))))))", tmpfile.Name())
-	_, err = runCommand(fmt.Sprintf("kubectl apply -f %s", tmpfile.Name()))
+	_, err = runCommand(fmt.Sprintf("kubectl apply -f %s ", tmpfile.Name()))
 	if err != nil {
 		fmt.Println("Error applying YAML from temporary file:", err)
 		return "err", err
 	}
 
-	outputEqual, err := compareOutputs(examples)
+	outputEqual, err := compareOutputs(examples, lenguage)
 	if err != nil {
 		fmt.Println("Error comparing outputs:", err)
 		return "err", err

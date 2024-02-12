@@ -15,12 +15,14 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 	err := os.Mkdir(folderName, 0755)
 	if err != nil {
 		fmt.Println("Error creating folder:", err)
+		return "Error creating folder:"
 	}
 	// Write function contents to a .js file
 	functionFile := folderName + "/function.js"
 	err = ioutil.WriteFile(functionFile, []byte(function), 0644)
 	if err != nil {
 		fmt.Println("Error writing function file:", err)
+		return "Error writing function file:"
 	}
 
 	// Create package.json file
@@ -35,6 +37,7 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 	err = ioutil.WriteFile(packageFile, []byte(packageJSON), 0644)
 	if err != nil {
 		fmt.Println("Error writing package.json file:", err)
+		return "Error writing package.json file:"
 	}
 
 	// Create Dockerfile
@@ -46,6 +49,7 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 	err = ioutil.WriteFile(dockerfileLocation, []byte(dockerfile), 0644)
 	if err != nil {
 		fmt.Println("Error writing Dockerfile:", err)
+		return "Error writing Dockerfile:"
 	}
 	// Build Docker image
 	cmd := exec.Command("docker", "build", "-t", "tziviarot/function_image_node:latest", folderName)
@@ -54,6 +58,8 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println("Error building Docker image:", err)
+		return "Error building Docker image:"
+
 	}
 
 	//push Docker image
@@ -64,9 +70,10 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println("\nError phsh Docker image:", err)
+		return "\nError phsh Docker image:"
 	}
 
-	createAndRunYmlFile, err := createAndRunYmlFile(examples, "tziviarot/function_image_node:latest")
+	createAndRunYmlFileRes, err := createAndRunYmlFile("nodejs", examples, "tziviarot/function_image_node:latest")
 
 	// fmt.Print("2\n")
 	// fmt.Print(st)
@@ -74,5 +81,5 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 		fmt.Print(err)
 	}
 	os.RemoveAll(folderName)
-	return createAndRunYmlFile
+	return createAndRunYmlFileRes
 }

@@ -16,7 +16,7 @@ func CheckExerciseGO(function string, examples []model.Example) string {
 		fmt.Println("Error creating folder:", err)
 	}
 	// Write function contents to a go file
-	functionFile := folderName + "/main.go"
+	functionFile := folderName + "/function.go"
 	err = ioutil.WriteFile(functionFile, []byte(function), 0644)
 	if err != nil {
 		fmt.Println("Error writing function file:", err)
@@ -40,7 +40,7 @@ go 1.21.6
 	WORKDIR /app
 	COPY . .
 	RUN go build -o function
-	CMD ["./main"]`
+	CMD ["./function"]`
 	dockerfileLocation := folderName + "/Dockerfile"
 	err = ioutil.WriteFile(dockerfileLocation, []byte(dockerfile), 0644)
 	if err != nil {
@@ -67,12 +67,12 @@ go 1.21.6
 		fmt.Println("\nError phsh Docker image:", err)
 	}
 
-	createAndRunYmlFile, err := createAndRunYmlFile(examples, "tziviarot/function_image_go:latest")
+	createAndRunYmlFileRes, err := createAndRunYmlFile("go", examples, "tziviarot/function_image_go:latest")
 
 	if err != nil {
 		fmt.Print("err:", err)
 	}
 
 	os.RemoveAll(folderName)
-	return createAndRunYmlFile
+	return createAndRunYmlFileRes
 }
