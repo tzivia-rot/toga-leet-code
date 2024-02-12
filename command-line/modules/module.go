@@ -1,7 +1,7 @@
-package model
+package modules
 
 type Example struct {
-	Input  []string `json:"input"`
+	Inputs []string `json:"input"`
 	Output string   `json:"output"`
 }
 
@@ -11,10 +11,4 @@ type Exercise struct {
 	Description    string `json:"description" bson:"description"`
 	Examples       []Example
 	BasisOperation string
-}
-type Answer struct {
-	Function   string `json:"function" bson:"function"`
-	Lenguage   string `json:"lenguage" bson:"lenguage"`
-	ID         string `json:"id" bson:"_id,omitempty"`
-	ExerciseId string `json:"exerciseId" bson:"exerciseId"`
 }
