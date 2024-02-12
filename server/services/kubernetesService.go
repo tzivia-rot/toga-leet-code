@@ -57,10 +57,9 @@ func compareOutputs(examples []model.Example, lenguage string) (bool, error) {
 		if err != nil {
 			return false, err
 		}
-		fmt.Print("\nfdfdf2\n", podName)
 		podNameWithoutHyphen := strings.Replace(podName, "'", "", -1)
 		logs, err := runCommand(fmt.Sprintf("kubectl logs %s", podNameWithoutHyphen))
-		fmt.Print("\nfdfdf2\n", logs)
+		fmt.Print("\nlog--\n", logs)
 		if err != nil {
 			return false, err
 		}
@@ -82,8 +81,6 @@ func compareOutputs(examples []model.Example, lenguage string) (bool, error) {
 
 func createAndRunYmlFile(lenguage string, examples []model.Example, imageName string) (string, error) {
 	yamlContent, err := createYAMLString(lenguage, examples, imageName)
-	fmt.Print("\nimageNameymaelll-----------------\n", yamlContent)
-	fmt.Print("\nanddddddddddd")
 	if err != nil {
 		fmt.Println("Error creating YAML string:", err)
 		return "err", err
@@ -105,7 +102,6 @@ func createAndRunYmlFile(lenguage string, examples []model.Example, imageName st
 	tmpfile.Close()
 
 	// Apply YAML from the temporary file
-	fmt.Print("tmpfile.Name())))))))))", tmpfile.Name())
 	_, err = runCommand(fmt.Sprintf("kubectl apply -f %s ", tmpfile.Name()))
 	if err != nil {
 		fmt.Println("Error applying YAML from temporary file:", err)

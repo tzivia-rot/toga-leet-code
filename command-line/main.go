@@ -2,9 +2,13 @@ package main
 
 import (
 	httpCall "command-line/http"
+	"strconv"
+
 	"command-line/modules"
 	"fmt"
 	"log"
+
+	// "strconv"
 
 	"github.com/charmbracelet/huh"
 )
@@ -31,6 +35,19 @@ var (
 var url = "http://localhost:8080/exercises"
 
 func addExercise() {
+	addExerciseBasic()
+	addExerciseEample()
+	addExerciseEample()
+	addExerciseEample()
+	response, err := httpCall.AddExercise(exercise)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("there is! The exercise was successfully added! This is his code: ", response)
+
+}
+func addExerciseBasic() {
 	// קבלת פרטי התרגיל מהמשתמש
 	form := huh.NewForm(
 		huh.NewGroup(
@@ -45,6 +62,14 @@ func addExercise() {
 				Value(&exercise.BasisOperation),
 		),
 	)
+	err := form.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
+
+func addExerciseEample() {
 	formOutput := huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
@@ -57,63 +82,27 @@ func addExercise() {
 				Value(&countInput),
 		),
 	)
-	formInput := huh.NewForm(
-		huh.NewGroup(
-			huh.NewInput().
-				Title("הכנס קלט").
-				Value(&input),
-		),
-	)
-	// for
-	// ex := Example{}
-
-	// ex.Input.append(input1)
-
-	// ex.Output.append(output)
-
-	// var numberExample int
-	// fmt.Print("How many examples do you have to enter?")
-
-	err := form.Run()
+	err := formOutput.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// err := formOutput.Run()
-	// if err != nil {
-
-	// 	log.Fatal(err)
-	// }
-	err = formOutput.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
 	example.Output = output
-	// countInput, err := strconv.Atoi(countInput)
-	if err != nil {
-		log.Fatal(err)
+	countInputInt, err := strconv.Atoi(countInput)
+	for i := 0; i < countInputInt; i++ {
+		var input string
+		fmt.Printf("הכנס קלט %d: ", i+1)
+		fmt.Scanln(&input)
+		inputs = append(inputs, input)
 	}
-	// j := 0
 
-	// for {
-	err = formInput.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	inputs = append(inputs, input)
-	// 	j++
-	// 	if j > countInput {
-	// 		break
-	// 	}
-	// }
 	example.Inputs = inputs
+	inputs = nil
 	exercise.Examples = append(exercise.Examples, example)
-
-	response, err := httpCall.AddExercise(exercise)
-	fmt.Println("there is! The exercise was successfully added! This is his code: ", response)
-
 }
-
 func deleteExercise() {
 	// קבלת מזהה התרגיל למחיקה מהמשתמש
 	form := huh.NewForm(
@@ -203,7 +192,7 @@ func checkExercise() {
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
-				Title("What you went to do?").
+				Title("What language do you write in??").
 				Options(
 					huh.NewOption("node.js", "node.js"),
 					huh.NewOption("go", "GO"),
@@ -214,11 +203,11 @@ func checkExercise() {
 				Value(&id),
 		),
 	)
-	formNodeJS := huh.NewForm(
+	formFunctionCode := huh.NewForm(
 		huh.NewGroup(
 			huh.NewText().
-				Title("Tell me a story.").
-				Value(&functionCode).CharLimit(100000000000000000),
+				Title("Enter the code.").
+				Value(&functionCode).CharLimit(1000000000000000000),
 		),
 	)
 
@@ -226,22 +215,15 @@ func checkExercise() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// err = formNodeJS.Run()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// switch lenguage {
-	// case "node.js":
-
-	// case "go":
-
-	// }
-	err = formNodeJS.Run()
+	err = formFunctionCode.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
 	response, err := httpCall.CheckExercise(id, functionCode, lenguage)
 	fmt.Println("Response:", response)
+}
+func a() {
+
 }
 func main() {
 
