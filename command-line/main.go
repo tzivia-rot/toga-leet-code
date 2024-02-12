@@ -2,13 +2,12 @@ package main
 
 import (
 	httpCall "command-line/http"
+
 	"strconv"
 
 	"command-line/modules"
 	"fmt"
 	"log"
-
-	// "strconv"
 
 	"github.com/charmbracelet/huh"
 )
@@ -48,7 +47,6 @@ func addExercise() {
 
 }
 func addExerciseBasic() {
-	// קבלת פרטי התרגיל מהמשתמש
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
@@ -104,7 +102,6 @@ func addExerciseEample() {
 	exercise.Examples = append(exercise.Examples, example)
 }
 func deleteExercise() {
-	// קבלת מזהה התרגיל למחיקה מהמשתמש
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
@@ -122,7 +119,6 @@ func deleteExercise() {
 }
 
 func updateExercise() {
-	// קבלת מזהה התרגיל לעדכון מהמשתמש
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
@@ -144,19 +140,16 @@ func updateExercise() {
 		log.Fatal(err)
 	}
 
-	// בניית הבקשה לשרת
 	data := map[string]string{
 		"name":        exercise.Name,
 		"description": exercise.Description,
 	}
 	response, err := httpCall.UpdateExercise(exercise.ID, data)
 
-	// הדפסת קוד התגובה
 	fmt.Println("Response Status:", response)
 }
 
 func getExerciseByID() {
-	// קבלת מזהה התרגיל להצגה מהמשתמש
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
@@ -176,16 +169,16 @@ func getExerciseByID() {
 
 func getAllExercises() {
 
-	// קריאת רשימת התרגילים מהתגובה
 	var exercises []modules.Exercise
 	exercises, err := httpCall.GetAllExercises()
 	if err != nil {
 		fmt.Print("erroeGetAll")
 	}
 	// הדפסת רשימת התרגילים
-	for _, exercise := range exercises {
-		fmt.Printf("Exercise ID: %s, Name: %s, Description: %s\n", exercise.ID, exercise.Name, exercise.Description)
-	}
+	// for _, exercise := range exercises {
+	// 	fmt.Printf("Exercise ID: %s, Name: %s, Description: %s\n", exercise.ID, exercise.Name, exercise.Description)
+	// }
+	formtable.tableExercise(exercises)
 }
 
 func checkExercise() {
