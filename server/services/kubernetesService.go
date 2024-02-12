@@ -41,7 +41,7 @@ spec:
 }
 
 func runCommand(command string) (string, error) {
-	fmt.Print("cooo", command)
+	fmt.Print("\ncomnand:\n", command)
 	cmd := exec.Command("cmd", "/C", command)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -52,8 +52,6 @@ func runCommand(command string) (string, error) {
 }
 
 func compareOutputs(examples []model.Example, lenguage string) (bool, error) {
-	fmt.Print("\nfdfdf1", examples)
-
 	for i, arr := range examples {
 		podName, err := runCommand(fmt.Sprintf("kubectl get pods --selector=job-name=function-%d%s -o=jsonpath='{.items[0].metadata.name}'", i+1, lenguage))
 		if err != nil {
