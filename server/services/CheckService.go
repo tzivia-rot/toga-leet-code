@@ -12,8 +12,6 @@ import (
 )
 
 func (s *ExerciseService) CheckExercise(c *gin.Context) {
-
-	// flag := true
 	id := c.Param("id")
 	fmt.Println("idd", id)
 

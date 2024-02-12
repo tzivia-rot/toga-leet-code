@@ -8,21 +8,20 @@ import (
 	"os/exec"
 )
 
-func CheckExerciseGO(function string, examples []model.Example) string {
+func CheckExerciseGO(function string, examples []model.Example) string,err{
 
 	folderName := "function_folder"
 	err := os.Mkdir(folderName, 0755)
 	if err != nil {
-		fmt.Println("Error creating folder:", err)
+		return "Error creating folder:",err
 	}
+
 	// Write function contents to a go file
 	functionFile := folderName + "/function.go"
 	err = ioutil.WriteFile(functionFile, []byte(function), 0644)
 	if err != nil {
-		fmt.Println("Error writing function file:", err)
+		return "Error writing function file:", err
 	}
-	fmt.Print("\nWrite function contents to a go file\n")
-
 	// Create go.mod file
 	packageMOD := `module myproject
 
@@ -31,9 +30,8 @@ go 1.21.6
 	packageFile := folderName + "/go.mod"
 	err = ioutil.WriteFile(packageFile, []byte(packageMOD), 0644)
 	if err != nil {
-		fmt.Println("Error writing package.json file:", err)
+		return "Error writing package.json file:", err
 	}
-	fmt.Print("\nWrite mod\n")
 
 	// Create Dockerfile
 	dockerfile := `FROM golang:latest
@@ -44,9 +42,8 @@ go 1.21.6
 	dockerfileLocation := folderName + "/Dockerfile"
 	err = ioutil.WriteFile(dockerfileLocation, []byte(dockerfile), 0644)
 	if err != nil {
-		fmt.Println("Error writing Dockerfile:", err)
+		return "Error writing Dockerfile:", err
 	}
-	fmt.Print("\nWrite docker")
 
 	// Build Docker image
 	cmd := exec.Command("docker", "build", "-t", "tziviarot/function_image_go:latest", folderName)
@@ -54,7 +51,7 @@ go 1.21.6
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println("Error building Docker image:", err)
+		return "Error building Docker image:", err
 	}
 
 	//push Docker image
@@ -64,13 +61,13 @@ go 1.21.6
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println("\nError phsh Docker image:", err)
+		return "Error phsh Docker image:",err
 	}
 
 	createAndRunYmlFileRes, err := createAndRunYmlFile("go", examples, "tziviarot/function_image_go:latest")
 
 	if err != nil {
-		fmt.Print("err:", err)
+		return "Error create And Run Yml FileRes",err
 	}
 
 	os.RemoveAll(folderName)

@@ -86,14 +86,13 @@ func createAndRunYmlFile(lenguage string, examples []model.Example, imageName st
 		return "err", err
 	}
 
-	// Write YAML content to a temporary file
 	tmpfile, err := os.CreateTemp("", "temp-*.yaml")
 	if err != nil {
 		fmt.Println("Error creating temporary file:", err)
 		return "err", err
 	}
 
-	defer os.Remove(tmpfile.Name()) // Clean up the temporary file
+	defer os.Remove(tmpfile.Name())
 	_, err = tmpfile.WriteString(yamlContent)
 	if err != nil {
 		fmt.Println("Error writing to temporary file:", err)
@@ -101,7 +100,6 @@ func createAndRunYmlFile(lenguage string, examples []model.Example, imageName st
 	}
 	tmpfile.Close()
 
-	// Apply YAML from the temporary file
 	_, err = runCommand(fmt.Sprintf("kubectl apply -f %s ", tmpfile.Name()))
 	if err != nil {
 		fmt.Println("Error applying YAML from temporary file:", err)

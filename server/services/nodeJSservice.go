@@ -75,8 +75,6 @@ func CheckExerciseNode(function string, examples []model.Example) string {
 
 	createAndRunYmlFileRes, err := createAndRunYmlFile("nodejs", examples, "tziviarot/function_image_node:latest")
 
-	// fmt.Print("2\n")
-	// fmt.Print(st)
 	if err != nil {
 		fmt.Print(err)
 	}
