@@ -1,19 +1,18 @@
 package exerciseService
 
 import (
-	"fmt"
 	model "go-lenguage/models"
 	"io/ioutil"
 	"os"
 	"os/exec"
 )
 
-func CheckExerciseGO(function string, examples []model.Example) string,err{
+func CheckExerciseGO(function string, examples []model.Example) (string, error) {
 
 	folderName := "function_folder"
 	err := os.Mkdir(folderName, 0755)
 	if err != nil {
-		return "Error creating folder:",err
+		return "Error creating folder:", err
 	}
 
 	// Write function contents to a go file
@@ -61,15 +60,17 @@ go 1.21.6
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()
 	if err != nil {
-		return "Error phsh Docker image:",err
+		os.RemoveAll(folderName)
+		return "Error phsh Docker image:", err
 	}
 
 	createAndRunYmlFileRes, err := createAndRunYmlFile("go", examples, "tziviarot/function_image_go:latest")
 
 	if err != nil {
-		return "Error create And Run Yml FileRes",err
+		os.RemoveAll(folderName)
+		return "Error create And Run Yml FileRes", err
 	}
 
 	os.RemoveAll(folderName)
-	return createAndRunYmlFileRes
+	return createAndRunYmlFileRes, err
 }

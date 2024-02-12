@@ -1,4 +1,4 @@
-package formtable
+package main
 
 import (
 	"command-line/modules"

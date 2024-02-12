@@ -174,11 +174,12 @@ func getAllExercises() {
 	if err != nil {
 		fmt.Print("erroeGetAll")
 	}
-	// הדפסת רשימת התרגילים
-	// for _, exercise := range exercises {
-	// 	fmt.Printf("Exercise ID: %s, Name: %s, Description: %s\n", exercise.ID, exercise.Name, exercise.Description)
-	// }
-	formtable.tableExercise(exercises)
+	for _, exercise := range exercises {
+		fmt.Printf("Exercise ID: %s, Name: %s, Description: %s\n", exercise.ID, exercise.Name, exercise.Description)
+	}
+
+	// result := tableExercise(exercises)
+	// fmt.Print(result)
 }
 
 func checkExercise() {
@@ -215,9 +216,7 @@ func checkExercise() {
 	response, err := httpCall.CheckExercise(id, functionCode, lenguage)
 	fmt.Println("Response:", response)
 }
-func a() {
 
-}
 func main() {
 
 	var confirm = true

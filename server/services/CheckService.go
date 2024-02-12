@@ -35,13 +35,21 @@ func (s *ExerciseService) CheckExercise(c *gin.Context) {
 	}
 
 	if answer.Lenguage == "node.js" {
-		checkExerciseNode := CheckExerciseNode(answer.Function, exercise.Examples)
+		checkExerciseNode, err := CheckExerciseNode(answer.Function, exercise.Examples)
 		c.JSON(http.StatusOK, gin.H{"response": checkExerciseNode})
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"response": err})
+		}
 
 	}
 	if answer.Lenguage == "GO" {
-		checkExerciseGO := CheckExerciseGO(answer.Function, exercise.Examples)
+		checkExerciseGO, err := CheckExerciseGO(answer.Function, exercise.Examples)
 		c.JSON(http.StatusOK, gin.H{"response": checkExerciseGO})
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"response": err})
+		}
 	}
 
 }

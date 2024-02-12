@@ -12,11 +12,11 @@ import (
 func createYAMLString(lenguage string, arrays []model.Example, imageName string) (string, error) {
 	yamlContent := ""
 	for i, arr := range arrays {
-		yamlContent += fmt.Sprintf(`---
+		yamlContent += fmt.Sprintf(`
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ex-%d%s
+  name: function-%d%s
 spec:
   template:
     spec:
@@ -33,7 +33,9 @@ spec:
 		}
 
 		yamlContent += `
-      restartPolicy: Never`
+      restartPolicy: Never
+---
+`
 	}
 	return yamlContent, nil
 }
@@ -53,7 +55,7 @@ func compareOutputs(examples []model.Example, lenguage string) (bool, error) {
 	fmt.Print("\nfdfdf1", examples)
 
 	for i, arr := range examples {
-		podName, err := runCommand(fmt.Sprintf("kubectl get pods --selector=job-name=ex-%d%s -o=jsonpath='{.items[0].metadata.name}'", i+1, lenguage))
+		podName, err := runCommand(fmt.Sprintf("kubectl get pods --selector=job-name=function-%d%s -o=jsonpath='{.items[0].metadata.name}'", i+1, lenguage))
 		if err != nil {
 			return false, err
 		}
@@ -81,6 +83,7 @@ func compareOutputs(examples []model.Example, lenguage string) (bool, error) {
 
 func createAndRunYmlFile(lenguage string, examples []model.Example, imageName string) (string, error) {
 	yamlContent, err := createYAMLString(lenguage, examples, imageName)
+	fmt.Print("\nyamlContent", yamlContent)
 	if err != nil {
 		fmt.Println("Error creating YAML string:", err)
 		return "err", err

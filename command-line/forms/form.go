@@ -1,4 +1,4 @@
-package forms
+package formtable
 
 import (
 	"command-line/modules"
