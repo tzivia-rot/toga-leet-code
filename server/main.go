@@ -22,7 +22,7 @@ func init() {
 		log.Fatal("Failed to load .env file")
 	}
 
-	uri := os.Getenv("URI")
+	uri := os.Getenv("URI_MONGO")
 	if uri == "" {
 		log.Fatal("URI not found in .env file")
 	}

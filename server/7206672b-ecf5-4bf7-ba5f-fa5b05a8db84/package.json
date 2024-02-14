@@ -1,7 +1,0 @@
-{
-		"name": "function_container",
-		"version": "1.0.0",
-		"scripts": {
-			"start": "node function.js"
-		}
-	}
