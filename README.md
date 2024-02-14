@@ -14,7 +14,7 @@
 ### How to run the actions from the command line:
 - First, you get all the existing exercises, you can choose which exercise you want to do
   or if you want to add a new exercise, you can choose another action and go to add an exercise.
-  - Add an exercise: When you add an exercise you need to enter these parameters:
+ - Add an exercise: When you add an exercise you need to enter these parameters:
      Name, description and 3 examples. for this exercise each example includes output and how many parameters the function should accept.
 
      Apart from that, you need to add basisOperationNodeJS and basisOperationGO      
@@ -88,11 +88,11 @@
           
        > [!NOTE]
        > that the base name of the function must be action and contain contiguous blank brackets for applying the function value in its place
-    -delete, update
-       
-    you nod need sent params
-    
-    -check exercise
+   
+ -delete, update
+  
+       you no need sent params
+ -check exercise
     
        you need choose hew languge you went to write the function
     
@@ -107,7 +107,5 @@
    finally, you can choose if you went to continue or not
 
   geed luck :)
-    
-
-          
+  Thank you for the challenge!
     
