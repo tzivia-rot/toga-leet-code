@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -33,9 +34,11 @@ func (s *ExerciseService) CheckExercise(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+	fmt.Print("\nfuncion\n", answer.Function)
+	newUUID := uuid.New()
+	imageName := fmt.Sprintf("tziviarot/%s:latest", newUUID)
 	if answer.Lenguage == "node.js" {
-		checkExerciseNode, err := CheckExerciseNode(answer.Function, exercise.Examples)
+		checkExerciseNode, err := CheckExerciseNode(answer.Function, exercise.Examples, newUUID.String(), imageName)
 		c.JSON(http.StatusOK, gin.H{"response": checkExerciseNode})
 
 		if err != nil {
@@ -44,7 +47,7 @@ func (s *ExerciseService) CheckExercise(c *gin.Context) {
 
 	}
 	if answer.Lenguage == "GO" {
-		checkExerciseGO, err := CheckExerciseGO(answer.Function, exercise.Examples)
+		checkExerciseGO, err := CheckExerciseGO(answer.Function, exercise.Examples, newUUID.String(), imageName)
 		c.JSON(http.StatusOK, gin.H{"response": checkExerciseGO})
 
 		if err != nil {

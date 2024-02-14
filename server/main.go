@@ -4,19 +4,30 @@ import (
 	"context"
 	exerciseRouter "go-lenguage/routes"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const uri = "mongodb://localhost:27017"
 
 var mongoClient *mongo.Client
 var collection *mongo.Collection
 
 func init() {
-	if err := connectToMongoDB(); err != nil {
+
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Failed to load .env file")
+	}
+
+	uri := os.Getenv("URI")
+	if uri == "" {
+		log.Fatal("URI not found in .env file")
+	}
+
+	if err := connectToMongoDB(uri); err != nil {
 		log.Fatal("Could not connect to MongoDB")
 	}
 	collection = mongoClient.Database("togaLeetCode").Collection("exercises")
@@ -30,7 +41,7 @@ func main() {
 	log.Fatal(router.Run(":8080"))
 }
 
-func connectToMongoDB() error {
+func connectToMongoDB(uri string) error {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
 
