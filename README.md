@@ -25,15 +25,89 @@
      1. get the parms from env
      2. sending from action function
      3. defintion from function that get right params
+     4. Checking whether the value returned from an action function is equal to the output value received in an environment variable, if is ```exit(0)``` else ```exit (1)```
     
      This need to be all what that the user need to run code
 
     >for example new exercise:
     >
-         name     
-         node return input
-         description     the function need return the input that he get
+    name
+    
+         return input
+    
+    description:
+    
+         the function need return the input that he get
+    
+    example:
+    
+         [input:["1"] , output:"1"]
+         [input:["100"] , output:"100"]
+         [input:["hellow"] , output:"hellow"]
+    
+     basisOperationNodeJS:
+    
+         function action(input1) {}
+         function main(){
+             var input1 = process.env.MY_VARIABLE_INPUT_1;
+             var input2 = process.env.MY_VARIABLE_OUTPUT; 
+             const output=action(input1)
+             if(output===input2){
+                 process.exit(0)
+             }
+             else
+             {
+                 process.exit(1)
+             }
+         }
+          main();
+
+       basisOperationNodeGO:
+    
+          package main
+          import (
+              "fmt"
+              "os"
+          )
+          
+          func action(input1 string) string {}
+          
+          func main() {
+              input1 := os.Getenv("MY_VARIABLE_INPUT_1")
+              input2 := os.Getenv("MY_VARIABLE_OUTPUT")
+          
+              output := action(input1)
+              if output == input2 {
+                  fmt.Println("Output matches input2.")
+                  os.Exit(0)
+              } else {
+                  fmt.Println("Output does not match input2.")
+                  os.Exit(1)
+              }
+          }
+          
+       > [!NOTE]
+       > that the base name of the function must be action and contain contiguous blank brackets for applying the function value in its place
+    -delete, update
+       
+    you nod need sent params
+    
+    -check exercise
+    
+       you need choose hew languge you went to write the function
+    
+       and write **anly** content the function
+
+    >For example for the previous example
+
+         return input1;
+
+    you get if this work or not
+
+   finally, you can choose if you went to continue or not
+
+  geed luck :)
     
 
-> [!NOTE]
-> that the base name of the function must be action and contain contiguous blank brackets for applying the function value in its place
+          
+    
