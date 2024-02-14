@@ -89,22 +89,20 @@
        > [!NOTE]
        > that the base name of the function must be action and contain contiguous blank brackets for applying the function value in its place
    
- -delete, update
-  
+ - delete, update
        you no need sent params
- -check exercise
+ - check exercise
     
-       you need choose hew languge you went to write the function
-    
-       and write **anly** content the function
+  you need choose hew languge you went to write the function
+
+  and write **anly** content the function
 
     >For example for the previous example
 
          return input1;
 
     you get if this work or not
-
-   finally, you can choose if you went to continue or not
+- finally, you can choose if you went to continue or not
 
   geed luck :)
   Thank you for the challenge!
