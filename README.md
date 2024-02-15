@@ -22,6 +22,7 @@
      This should include:
     
      1. get the parms from env, MY_VARIABLE_INPUT_1 / MY_VARIABLE_INPUT_2 ... and MY_VARIABLE_OUTPUT
+     2. convert env for the the type that the function need to get
      3. sending from action function
      4. defintion from function that get right params
      5. Checking whether the value returned from an action function is equal to the output value received in an environment variable, if is ```exit(0)``` else ```exit (1)```
@@ -44,7 +45,7 @@
          [input:["100"] , output:"100"]
          [input:["hellow"] , output:"hellow"]
     
-     basisOperationNodeJS:
+   basisOperationNodeJS:
     
          function action(input1) {}
          function main(){
@@ -61,7 +62,8 @@
          }
           main();
 
-       basisOperationNodeGO:
+
+   basisOperationGO:
     
           package main
           import (
@@ -84,9 +86,10 @@
                   os.Exit(1)
               }
           }
+
           
-       > [!NOTE]
-       > that the base name of the function must be action and contain contiguous blank brackets for applying the function value in its place
+  > [!NOTE]
+  > that the base name of the function must be action and contain contiguous blank brackets for applying the function value in its place
    
  - delete, update
        you no need sent params
@@ -96,11 +99,11 @@
 
   and write **anly** content the function
 
-    >For example for the previous example
+>For example for the previous example
 
          return input1;
 
-    you get if this work or not
+you get if this work or not
 - finally, you can choose if you went to continue or not
 
   geed luck :)
