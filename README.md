@@ -8,7 +8,7 @@
 > [!WARNING]
 >  When i try run the server on docker compose i get problom to connect to DB,
 > I tried to search about this for long time without success,
-> if is this not work you can run the DB in docker compose and the server local - ןt works
+> if is this not work you can run the DB in docker compose and the server local - it works
 4. #### to run client - cmd:
    1. run ```cd command-line```
    2. rum ```go run main.go```
