@@ -1,4 +1,4 @@
-﻿# toga-leet-code
+﻿# Toga-leet-code
 ## Instructions:
 ## What needs to be done to activate the system:
 1. open cmd
