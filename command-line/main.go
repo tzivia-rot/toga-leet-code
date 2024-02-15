@@ -49,7 +49,13 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		exercise = modules.Exercise{}
+		for i := range exercises {
+			exercises[i] = modules.Exercise{}
+		}
+
 	}
+
 }
 
 func showBegin() {
@@ -106,7 +112,7 @@ func showBegin() {
 		case "getSpecific":
 			getExerciseByID()
 		case "check":
-			checkExercise(exercise)
+			checkExercise()
 		}
 	}
 }
@@ -249,7 +255,7 @@ func otherAction() {
 	addExercise()
 
 }
-func checkExercise(exercise modules.Exercise) {
+func checkExercise() {
 
 	form := huh.NewForm(
 		huh.NewGroup(
@@ -278,6 +284,8 @@ func checkExercise(exercise modules.Exercise) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Responseid:", exercise.ID)
+
 	response, err := httpCall.CheckExercise(exercise.ID, functionCode, lenguage)
 	fmt.Println("Response:", response)
 }
