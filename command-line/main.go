@@ -3,9 +3,8 @@ package main
 import (
 	httpCall "command-line/http"
 	"os"
-	"strings"
-
 	"strconv"
+	"strings"
 
 	"command-line/modules"
 	"fmt"
@@ -92,7 +91,7 @@ func showBegin() {
 		otherAction()
 	} else {
 		exercise.ID = exercises[index-1].ID
-		// fmt.Print(stringExercise(exercises[index-1]))
+		fmt.Print(stringExercise(exercises[index-1]))
 
 		err = formActions.Run()
 		if err != nil {
@@ -283,17 +282,27 @@ func checkExercise(exercise modules.Exercise) {
 	fmt.Println("Response:", response)
 }
 
-// func stringExercise(e modules.Exercise) string {
-// 	// basisGO := extractFunction(e.BasisOperationGO)
-// 	// basisNodeJS := extractFunction(e.BasisOperationNodeJS)
-// 	return fmt.Sprintf("ID: %s\nName: %s\nDescription: %s\nBasisOperationGO: %s\nBasisOperationNodeJS: %s\n", e.ID, e.Name, e.Description, basisGO, basisNodeJS)
-// }
+func stringExercise(e modules.Exercise) string {
+	basisGO := extractFunctionGO(e.BasisOperationGO)
+	basisNodeJS := extractFunctionNode(e.BasisOperationNodeJS)
+	return fmt.Sprintf("\nName: %s\nDescription: %s\nThe function title in go: %s\nThe function title in node.js: %s\n", e.Name, e.Description, basisGO, basisNodeJS)
+}
 
-// func extractFunctionNode(code string) string {
-// 	closingBracketIndex1 := strings.Index(code, "function action")
-// 	closingBracketIndex2 := strings.Index(code, "{}")
+func extractFunctionNode(code string) string {
+	closingBracketIndex1 := strings.Index(code, "function action")
+	closingBracketIndex2 := strings.Index(code, "{}")
 
-// 	// if closingBracketIndex!=-1&&closingBracketIndex!=-1{
-// 	// 	return [closingBracketIndex1:closingBracketIndex2+1]
-// 	// }
-// }
+	if closingBracketIndex1 != -1 && closingBracketIndex2 != -1 {
+		return code[closingBracketIndex1 : closingBracketIndex2+1]
+	}
+	return code
+}
+func extractFunctionGO(code string) string {
+	closingBracketIndex1 := strings.Index(code, "func action")
+	closingBracketIndex2 := strings.Index(code, "{}")
+
+	if closingBracketIndex1 != -1 && closingBracketIndex2 != -1 {
+		return code[closingBracketIndex1 : closingBracketIndex2+1]
+	}
+	return code
+}
