@@ -1,4 +1,3 @@
 - splite the file in the command-line project to more files so that it was more organized
 - improve client visibility, and messages
-- add the const variable to file and remove them from the code
-- 
+- Adding validations for the inputs
