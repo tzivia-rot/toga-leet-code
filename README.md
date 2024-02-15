@@ -3,9 +3,8 @@
 ## What needs to be done to activate the system:
 1. open cmd
 2. run  ``` git clone git@github.com:tzivia-rot/toga-leet-code.git ```
-3. #### to run server:
-     1. run ```cd server```
-     2. run ```docker-compose up```
+3. #### to run server and the mongoDB:
+     1. run ```docker-compose up```
 4. #### to run client - cmd:
    1. run ```cd command-line```
    2. rum ```go run main.go```
@@ -22,10 +21,10 @@
 
      This should include:
     
-     1. get the parms from env
-     2. sending from action function
-     3. defintion from function that get right params
-     4. Checking whether the value returned from an action function is equal to the output value received in an environment variable, if is ```exit(0)``` else ```exit (1)```
+     1. get the parms from env, MY_VARIABLE_INPUT_1 / MY_VARIABLE_INPUT_2 ... and MY_VARIABLE_OUTPUT
+     3. sending from action function
+     4. defintion from function that get right params
+     5. Checking whether the value returned from an action function is equal to the output value received in an environment variable, if is ```exit(0)``` else ```exit (1)```
     
      This need to be all what that the user need to run code
 
