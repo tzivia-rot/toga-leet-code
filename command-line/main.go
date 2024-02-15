@@ -92,7 +92,7 @@ func showBegin() {
 		otherAction()
 	} else {
 		exercise.ID = exercises[index-1].ID
-		fmt.Print("id", exercise.ID)
+		// fmt.Print(stringExercise(exercises[index-1]))
 
 		err = formActions.Run()
 		if err != nil {
@@ -107,7 +107,7 @@ func showBegin() {
 		case "getSpecific":
 			getExerciseByID()
 		case "check":
-			checkExercise()
+			checkExercise(exercise)
 		}
 	}
 }
@@ -133,9 +133,14 @@ func addExerciseBasic() {
 			huh.NewInput().
 				Title("What is the description of the exercise?").
 				Value(&exercise.Description),
-			huh.NewInput().
-				Title("Insert a signature of the exercise for those who want to solve it?").
-				Value(&exercise.BasisOperation),
+			huh.NewText().
+				Title("Insert a basus opereation of the exercise for those who want to solve it in go").
+				CharLimit(1000000000000000000).
+				Value(&exercise.BasisOperationGO),
+			huh.NewText().
+				CharLimit(1000000000000000000).
+				Title("Insert a signature of the exercise for those who want to solve it in node.js").
+				Value(&exercise.BasisOperationNodeJS),
 		),
 	)
 	err := form.Run()
@@ -221,10 +226,10 @@ func getExerciseByID() {
 func exercisesToStrings(exercises []modules.Exercise) []string {
 	var result []string
 	for i, exercise := range exercises {
-		str := fmt.Sprintf("%d. , Name: %s, Description: %s", i+1, exercise.Name, exercise.Description)
+		str := fmt.Sprintf("%d. Name: %s, Description: %s", i+1, exercise.Name, exercise.Description)
 		result = append(result, str)
 	}
-	result = append(result, fmt.Sprintf("%d. ether action?", len(result)+1))
+	result = append(result, fmt.Sprintf("%d. other action?", len(result)+1))
 	return result
 }
 func otherAction() {
@@ -245,7 +250,8 @@ func otherAction() {
 	addExercise()
 
 }
-func checkExercise() {
+func checkExercise(exercise modules.Exercise) {
+
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
@@ -276,3 +282,18 @@ func checkExercise() {
 	response, err := httpCall.CheckExercise(exercise.ID, functionCode, lenguage)
 	fmt.Println("Response:", response)
 }
+
+// func stringExercise(e modules.Exercise) string {
+// 	// basisGO := extractFunction(e.BasisOperationGO)
+// 	// basisNodeJS := extractFunction(e.BasisOperationNodeJS)
+// 	return fmt.Sprintf("ID: %s\nName: %s\nDescription: %s\nBasisOperationGO: %s\nBasisOperationNodeJS: %s\n", e.ID, e.Name, e.Description, basisGO, basisNodeJS)
+// }
+
+// func extractFunctionNode(code string) string {
+// 	closingBracketIndex1 := strings.Index(code, "function action")
+// 	closingBracketIndex2 := strings.Index(code, "{}")
+
+// 	// if closingBracketIndex!=-1&&closingBracketIndex!=-1{
+// 	// 	return [closingBracketIndex1:closingBracketIndex2+1]
+// 	// }
+// }

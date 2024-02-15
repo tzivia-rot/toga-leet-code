@@ -2,7 +2,7 @@ version: "3"
 services:
   mongodb:
     image: mongo:latest
-    container_name: my-mongodb
+    container_name: mongodb
     ports:
       - "27017:27017"
     environment:
@@ -11,13 +11,13 @@ services:
     volumes:
       - mongodb-data:/data/db
 
-  # go-server:
-  #   build: .
-  #   container_name: my-go-server
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - mongodb
+  go-server:
+    build: ./server
+    container_name: my-go-server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
 
 volumes:
   mongodb-data:

@@ -26,14 +26,12 @@ spec:
         image: %s
         env:`, i+1, UUID, imageName)
 
-		// Set environment variables for each input in the example
 		for j, input := range example.Input {
 			yamlContent += fmt.Sprintf(`
         - name: MY_VARIABLE_INPUT_%d
           value: "%s"`, j+1, input)
 		}
 
-		// Set environment variable for output
 		yamlContent += fmt.Sprintf(`
         - name: MY_VARIABLE_OUTPUT
           value: "%s"`, example.Output)
@@ -62,7 +60,7 @@ func waitForPodReady(podName string) (error, string) {
 			fmt.Println("Pod", podName, "is now ready")
 			return nil, "Failed"
 		}
-		time.Sleep(5 * time.Second) // Wait for 5 seconds before checking again
+		time.Sleep(5 * time.Second)
 	}
 }
 func runCommand(command string) (string, error) {
@@ -84,35 +82,15 @@ func compareOutputs(examples []model.Example, lenguage string, UUID string) (boo
 			return false, err
 		}
 		podNameWithoutHyphen := strings.Replace(podName, "'", "", -1)
-
 		// Wait for the pod to be ready
 		if err, podStatus = waitForPodReady(podNameWithoutHyphen); err != nil {
 			return false, err
 		}
 		fmt.Print(arr)
-		// podStatus, err := runCommand(fmt.Sprintf("kubectl get pod %s -o jsonpath='{.status.containerStatuses[0].state.terminated.exitCode}'", podNameWithoutHyphen))
 		fmt.Print("\npodStatus\n", podStatus)
-		// logs, err := runCommand(fmt.Sprintf("kubectl logs %s", podNameWithoutHyphen))
-		// fmt.Print("\nlog--\n", logs)
-		// if err != nil {
-		// 	return false, err
-		// }
-		// fmt.Print("\narr\n", arr)
 		if podStatus != "Succeeded" {
 			return false, nil
 		}
-		// if lenguage == "go" {
-		// 	if !strings.EqualFold(logs, arr.Output) {
-		// 		return false, nil
-		// 	}
-		// }
-		// if lenguage == "node.js" {
-		// 	result := strings.Split(logs, " ")
-		// 	if result[len(result)] != arr.Output {
-		// 		return false, nil
-		// 	}
-		// }
-
 	}
 	return true, nil
 }
@@ -156,6 +134,6 @@ func createAndRunJobs(lenguage string, examples []model.Example, imageName strin
 		return "Output does not match expected output:(", err
 	}
 
-	fmt.Println("Output matches expected output")
+	fmt.Println("Output matches expected output:))))")
 	return "Output matches expected output", err
 }
