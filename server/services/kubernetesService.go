@@ -43,7 +43,7 @@ spec:
 	}
 	return yamlContent, nil
 }
-func waitForPodReady(podName string) (error, string) {
+func waitForPodReadyAndReturnStutus(podName string) (error, string) {
 	fmt.Println("Waiting for pod", podName, "to be ready...")
 	for {
 		cmd := exec.Command("kubectl", "get", "pod", podName, "-o", "jsonpath='{.status.phase}'")
@@ -83,7 +83,7 @@ func compareOutputs(examples []model.Example, lenguage string, UUID string) (boo
 		}
 		podNameWithoutHyphen := strings.Replace(podName, "'", "", -1)
 		// Wait for the pod to be ready
-		if err, podStatus = waitForPodReady(podNameWithoutHyphen); err != nil {
+		if err, podStatus = waitForPodReadyAndReturnStutus(podNameWithoutHyphen); err != nil {
 			return false, err
 		}
 		fmt.Print(arr)
