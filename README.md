@@ -106,6 +106,6 @@
 you get if this work or not
 - finally, you can choose if you went to continue or not
 
-  geed luck :)
+  good luck :)
   Thank you for the challenge!
     
